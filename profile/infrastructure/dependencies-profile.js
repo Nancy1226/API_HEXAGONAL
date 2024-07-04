@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.profileController = exports.deleteProfile = exports.updateProfile = exports.getProfileById = exports.createProfileUseCase = exports.getProfileListUseCase = void 0;
+const create_profile_usecase_1 = __importDefault(require("../application/create-profile-usecase"));
+const delete_profile_usecase_1 = __importDefault(require("../application/delete-profile-usecase"));
+const get_profileById_usecase_1 = require("../application/get-profileById-usecase");
+const get_profilelist_usecase_1 = __importDefault(require("../application/get-profilelist-usecase"));
+const update_profile_usecase_1 = __importDefault(require("../application/update-profile-usecase"));
+const profile_controller_1 = __importDefault(require("./controllers/profile-controller"));
+const repository_factory_1 = require("./adapters/repositories/repository-factory");
+const profileRepository = repository_factory_1.RepositoryFactory.createProfileRepository();
+exports.getProfileListUseCase = new get_profilelist_usecase_1.default(profileRepository);
+exports.createProfileUseCase = new create_profile_usecase_1.default(profileRepository);
+exports.getProfileById = new get_profileById_usecase_1.GetProfileByID(profileRepository);
+exports.updateProfile = new update_profile_usecase_1.default(profileRepository);
+exports.deleteProfile = new delete_profile_usecase_1.default(profileRepository);
+exports.profileController = new profile_controller_1.default(exports.getProfileListUseCase, exports.createProfileUseCase, exports.getProfileById, exports.updateProfile, exports.deleteProfile);
